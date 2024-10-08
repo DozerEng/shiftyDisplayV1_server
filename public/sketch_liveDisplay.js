@@ -42,7 +42,6 @@ function draw() {
   if(mouseIsPressed) {
     updateDisplay();
   }
-
   // Draw all the LEDs in the off state
   for (let row = 0; row < ROW_COUNT; row++ ) {
     for(let col = 0; col < COL_COUNT; col++){
@@ -67,11 +66,65 @@ function mousePressed() {
   //updateDisplay();
 }
 
+/*
+ *  Update display calculates where a mouse is clicked and acts accordingly
+ */
 function updateDisplay() {
+
+  /*
+   *  An attempt at improving performance however the draw() time is the bottleneck for refresh rate
+   *  Ignoring the gaps between LEDs means dragging the mouse across the display quickly may miss more LEDs then when gaps aren't ignored
+   */
+  const IGNORE_GAPS = true;
+  // Check if mouse click is inside the LED
+  if(mouseX > BORDER_WIDTH &&
+    mouseX < (COL_COUNT * (LED_WIDTH + LED_GAP) + BORDER_WIDTH - LED_GAP) &&
+    mouseY > BORDER_WIDTH &&
+    mouseY < (ROW_COUNT * (LED_WIDTH + LED_GAP) + BORDER_WIDTH - LED_GAP)) {
+
+    let col;
+    let row;
+    // Calculate row and column based on if you are ignoring the gaps between LEDs
+    if(IGNORE_GAPS === false) {
+      col = Math.floor((mouseX - BORDER_WIDTH + LED_GAP * 0.5) / (LED_WIDTH + LED_GAP));
+      row = Math.floor((mouseY - BORDER_WIDTH + LED_GAP * 0.5) / (LED_WIDTH + LED_GAP));
+    } else if (IGNORE_GAPS === true) {
+      col = (mouseX - BORDER_WIDTH) / (LED_WIDTH + LED_GAP);
+      row = (mouseY - BORDER_WIDTH) / (LED_WIDTH + LED_GAP);
+      const col_decimal = col % 1;
+      const row_decimal = row % 1;
+      const led_width_gap_ratio = LED_WIDTH/(LED_WIDTH + LED_GAP)
+      
+      // Exit if click was in a gap and not on an LED
+      if(col_decimal % 1 > led_width_gap_ratio || row_decimal % 1 > led_width_gap_ratio) {
+        return;
+      }
+      col = col - col_decimal;
+      row = row - row_decimal;
+    } else {
+      console.log('Error: Invalid "IGNORE_GAPS" =', IGNORE_GAPS);
+      return;
+    }
+
+    // Left mouse button turns LED on, right mouse button turns LED off
+    if (mouseButton === LEFT) {
+      led_states[row][col] = LED_ON;
+    } else if (mouseButton === RIGHT) {
+      led_states[row][col] = LED_OFF;
+    } 
+  }  
+  return; // Exit now so you don't have to comment or remove alternate method
+  
+  /*
+   *  This method may or may not be slower, but doesn't really matter since draw() takes much longer to execute
+   *  This method is clearer and easier to read or modify
+   */
+
   // Loop through each LED
   for (let row = 0; row < ROW_COUNT; row++ ) {
     for(let col = 0; col < COL_COUNT; col++){
       // Set LED minimum position
+      // Uncomment the values on the right to allow gap clicking to turn on/off LEDs
       let x_min = col * (LED_WIDTH + LED_GAP) + BORDER_WIDTH ;//- 0.5 * LED_GAP;
       let y_min = row * (LED_WIDTH + LED_GAP) + BORDER_WIDTH ;//- 0.5 * LED_GAP;
       let x_max = col * (LED_WIDTH + LED_GAP) + BORDER_WIDTH + LED_WIDTH ;//+ 0.5 * LED_GAP;
@@ -88,10 +141,7 @@ function updateDisplay() {
         } else if (mouseButton === RIGHT) {
           led_states[row][col] = LED_OFF;
         }
-
-      }
-    }
-
-  }
-  //console.log(led_states);
-}
+      } // EO check if mouse is over an LED
+    } // EO Loop through each LED col loop
+  } // EO Loop through each LED row loop 
+} // EO updateDisplay()

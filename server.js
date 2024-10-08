@@ -1,7 +1,9 @@
 let express = require('express');
 let app = express();
 let port = 3000;
+
 app.use(express.static('public'));
+app.use("/images", express.static('images')); //url now requires /images/filename rather than just /filename
 
 //Hanlding errors that make it past routes
 app.use((req, res, next) => {   
