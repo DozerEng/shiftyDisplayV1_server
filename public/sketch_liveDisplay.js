@@ -168,3 +168,22 @@ function updateDisplay() {
   } // EO Loop through each LED row loop 
 } // EO updateDisplay()
 
+
+/*
+ * Button functions
+ */
+
+function copyToClipboard() {
+  // Get the text content of the paragraph containing the C array
+  const textToCopy = document.getElementById('c_array').innerText;
+  // Use the Clipboard API to write text to the clipboard
+  navigator.clipboard.writeText(textToCopy);
+}
+
+function liveDisplayReset() {
+  // Fill led_states[][] and c_array[][] with zeros
+  for (let row = 0; row < ROW_COUNT; row++ ) {
+    led_states[row].fill(0);
+    c_array[row].fill(0);
+  }
+}

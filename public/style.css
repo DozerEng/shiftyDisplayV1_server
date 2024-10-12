@@ -3,6 +3,7 @@ body {
   color: #FFFFFF;
   font-family: 'Helvetica';
 }
+
 .center {
   margin: 0;
   display: flex;
@@ -24,4 +25,17 @@ p, h1, h2, h3, h4, h5, h6 {
 }
 #c_array {
   font-family: 'Courier New';
+}
+
+.button_container {
+  display: flex;
+  justify-content: center; /* Centers the buttons horizontally */
+  gap: 25px; /* Adds space between the buttons */
+}
+
+button {
+  margin-top: 10px;
+  padding: 5px 10px;
+  font-size: 16px;
+  cursor: pointer;
 }
