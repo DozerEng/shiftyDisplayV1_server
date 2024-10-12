@@ -26,23 +26,59 @@
   <body>
     <main>
     </main>
-    <div class="logo">                
+    <div class="logo center">                
       <img 
-      id="imageLogo"
+      id="shiftyDisplayV1Logo"
       src='/images/shiftyDisplayV1_Logo_blackWhiteRedGlowing.png'
       alt='Shifty Display V1'>
   </div>
 
 
-    <h1>Shifty Display V1</h1>
+    <!-- <h1>Shifty Display V1</h1> -->
     <p>
       Set display mode, update the display in real time, or experiment with different displays or character sets.
     </p>
 
-    <h2>Live Display</h2>
+    <h1>Live Display</h1>
     <p>Control the display in real time!
     <br>Left click to turn an LED on and right click to turn an LED off.</p>
     <script src="sketch_liveDisplay.js"></script>
+    <div class="center">
     <div id="liveDisplay"></div>
+    </div>
+
+    <h2>C-Array Initializer</h2>
+    <p>
+      Below is a readout of the C array that can be used by the STM32 microcontroller to update the actually display in real time. <br>
+      Click the button below to copy the c-array initialization statement to your clipboard.
+    </p>
+    
+    <p id="c_array">
+    </p>
+    <style>
+      button {
+        margin-top: 10px;
+        padding: 5px 10px;
+        font-size: 16px;
+        cursor: pointer;
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%);
+      }
+    </style>
+    <button onclick="copyToClipboard()">Copy array to clipboard</button>
+
+  <script>
+    function copyToClipboard() {
+      // Get the text content of the paragraph
+      const textToCopy = document.getElementById('c_array').innerText;
+
+      // Use the Clipboard API to write text to the clipboard
+      navigator.clipboard.writeText(textToCopy);
+    }
+  </script>
+      
+    <br><br>
+    <br><br>
   </body>
 </html>
