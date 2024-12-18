@@ -18,9 +18,29 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shifty Display V1</title>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.js"></script>
+    <script src = "/socket.io/socket.io.js" ></script>
+
+    <script> 
+      let socket = io.connect();
+
+
+      // socket.on("updatedFrame", handlePinUpdate);
+
+      function handleUpdatedDisplayFrame(message) {
+          console.log(message);
+      }
+      function sendNewDisplayFrame (frame) {
+        socket.emit('newDisplayFrame', frame);
+      }
+      function requestDisplayFrame () {
+        socket.emit('requestDisplayFrame', {});
+      }
+
+    </script>
+
     <link rel="stylesheet" type="text/css" href="style.css">
-    <meta charset="utf-8" />
 
   </head>
   <body>
@@ -52,15 +72,17 @@
 
     <p>
       Below is a readout of the C array that can be used by the STM32 microcontroller to update the actually display in real time. <br>
-      Click the button below to copy the c-array initialization statement to your clipboard.
+      Click the button below to copy the c-array initialization statement to your clipboard or reset the display.
     </p>
 
     <div class="button_container">
-      <button onclick="copyToClipboard()">Copy array to clipboard</button>
-      <button onclick="liveDisplayReset()">Reset</button>
+      <button onclick="copyToClipboard()"><b>Copy array to clipboard</b></button>
+      <button onclick="liveDisplayReset()"><b>Reset</b></button>
     </div>
 
     <p id="c_array"> <!-- Will be filled dynamically --> 
+       <!-- Ensure C-array is shown on initial page load -->
+      <script>updateCArray();</script>
     </p>
     
       

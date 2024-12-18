@@ -11,6 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "express": "expressjs/express",
-    "nodemon": "^3.1.7"
+    "nodemon": "^3.1.7",
+    "rpio": "^2.4.2",
+    "socket.io": "^4.8.0"
   }
 }

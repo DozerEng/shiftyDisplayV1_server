@@ -27,15 +27,37 @@ p, h1, h2, h3, h4, h5, h6 {
   font-family: 'Courier New';
 }
 
-.button_container {
+
+
+/*
+ *  Button stuff
+ */
+
+ .button_container {
   display: flex;
   justify-content: center; /* Centers the buttons horizontally */
-  gap: 25px; /* Adds space between the buttons */
+  gap: 35px; /* Adds space between the buttons */
 }
 
 button {
   margin-top: 10px;
-  padding: 5px 10px;
+  padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
+  color: white; /* Text colour */
+  border-radius: 10px;
+  border: 2px solid #660000;
+  background-color: #330000; /* Button colour */
+  transition: background-color 0.5s ease, border 0.5s ease, color 0.5s ease; /* Smooth colour change */
+}
+button:hover {
+  background-color: #dd0000;
+  border: 2px solid #ffffff;
+}
+
+button:active {
+  background-color: #ffffff;
+  color: #dd0000;
+  border: 2px solid #dd0000;
+  transition: none;
 }
